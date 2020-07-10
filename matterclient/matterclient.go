@@ -19,6 +19,8 @@ type Credentials struct {
 	Login            string
 	Team             string
 	Pass             string
+	Csrf             string
+	CsrfCookie       bool
 	Token            string
 	CookieToken      bool
 	Server           string

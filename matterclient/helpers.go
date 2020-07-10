@@ -64,6 +64,10 @@ func (m *MMClient) doLoginToken() (*model.Response, error) {
 	} else {
 		m.logger.Debugf(logmsg + " with personal token")
 	}
+	if m.Credentials.CsrfCookie {
+		m.logger.Debugf(logmsg + " with cookie (MMCSRF) token")
+		m.Client.HttpClient.Jar = m.appendCsrfToCookieJar(m.Client.HttpClient.Jar, m.Credentials.Csrf)
+	}
 	m.User, resp = m.Client.GetMe("")
 	if resp.Error != nil {
 		return resp, resp.Error
@@ -76,20 +80,30 @@ func (m *MMClient) doLoginToken() (*model.Response, error) {
 }
 
 func (m *MMClient) handleLoginToken() error {
-	switch {
-	case strings.Contains(m.Credentials.Pass, model.SESSION_COOKIE_TOKEN):
-		token := strings.Split(m.Credentials.Pass, model.SESSION_COOKIE_TOKEN+"=")
-		if len(token) != 2 {
-			return errors.New("incorrect MMAUTHTOKEN. valid input is MMAUTHTOKEN=yourtoken")
+	splitPass := strings.Split(m.Credentials.Pass, "---")
+	for _, splitPassPart := range splitPass {
+		switch {
+		case strings.Contains(splitPassPart, model.SESSION_COOKIE_TOKEN):
+			token := strings.Split(splitPassPart, model.SESSION_COOKIE_TOKEN+"=")
+			if len(token) != 2 {
+				return errors.New("incorrect MMAUTHTOKEN. valid input is MMAUTHTOKEN=yourtoken")
+			}
+			m.Credentials.Token = token[1]
+			m.Credentials.CookieToken = true
+		case strings.Contains(splitPassPart, "token="):
+			token := strings.Split(splitPassPart, "token=")
+			if len(token) != 2 {
+				return errors.New("incorrect personal token. valid input is token=yourtoken")
+			}
+			m.Credentials.Token = token[1]
+		case strings.Contains(splitPassPart, "MMCSRF="):
+			csrfToken := strings.Split(splitPassPart, "MMCSRF=")
+			if len(csrfToken) != 2 {
+				return errors.New("incorrect MMCSRF. valid input is MMCSRF=yourcsrf")
+			}
+			m.Credentials.Csrf = csrfToken[1]
+			m.Credentials.CsrfCookie = true
 		}
-		m.Credentials.Token = token[1]
-		m.Credentials.CookieToken = true
-	case strings.Contains(m.Credentials.Pass, "token="):
-		token := strings.Split(m.Credentials.Pass, "token=")
-		if len(token) != 2 {
-			return errors.New("incorrect personal token. valid input is token=yourtoken")
-		}
-		m.Credentials.Token = token[1]
 	}
 	return nil
 }
@@ -257,6 +271,21 @@ func (m *MMClient) createCookieJar(token string) *cookiejar.Jar {
 	}
 	cookies = append(cookies, firstCookie)
 	cookieURL, _ := url.Parse("https://" + m.Credentials.Server)
+	jar.SetCookies(cookieURL, cookies)
+	return jar
+}
+
+func (m *MMClient) appendCsrfToCookieJar(jar http.CookieJar, token string) http.CookieJar {
+	cookieURL, _ := url.Parse("https://" + m.Credentials.Server)
+	preExistingCookies := jar.Cookies(cookieURL)
+	newCookie := &http.Cookie{
+		Name:   "MMCSRF",
+		Value:  token,
+		Path:   "/",
+		Domain: m.Credentials.Server,
+	}
+
+	cookies := append(preExistingCookies, newCookie)
 	jar.SetCookies(cookieURL, cookies)
 	return jar
 }
