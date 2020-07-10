@@ -67,6 +67,10 @@ func (m *MMClient) doLoginToken() (*model.Response, error) {
 	if m.Credentials.CsrfCookie {
 		m.logger.Debugf(logmsg + " with cookie (MMCSRF) token")
 		m.Client.HttpClient.Jar = m.appendCsrfToCookieJar(m.Client.HttpClient.Jar, m.Credentials.Csrf)
+		if m.Client.HttpHeader == nil {
+			m.Client.HttpHeader = make(map[string]string)
+		}
+		m.Client.HttpHeader["X-CSRF-Token"] = m.Credentials.Csrf
 	}
 	m.User, resp = m.Client.GetMe("")
 	if resp.Error != nil {
