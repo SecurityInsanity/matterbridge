@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/42wim/matterbridge/bridge"
-	"github.com/42wim/matterbridge/bridge/config"
 	"github.com/Rhymen/go-whatsapp"
+	"github.com/SecurityInsanity/matterbridge/bridge"
+	"github.com/SecurityInsanity/matterbridge/bridge/config"
 )
 
 const (
@@ -54,7 +54,7 @@ func New(cfg *bridge.Config) bridge.Bridger {
 }
 
 // Connect to WhatsApp. Required implementation of the Bridger interface
-// https://github.com/42wim/matterbridge/blob/2cfd880cdb0df29771bf8f31df8d990ab897889d/bridge/bridge.go#L11-L16
+// https://github.com/SecurityInsanity/matterbridge/blob/2cfd880cdb0df29771bf8f31df8d990ab897889d/bridge/bridge.go#L11-L16
 func (b *Bwhatsapp) Connect() error {
 	b.RLock() // TODO do we need locking for Whatsapp?
 	defer b.RUnlock()
@@ -176,7 +176,7 @@ func (b *Bwhatsapp) Login() error {
 // Disconnect is called while reconnecting to the bridge
 // TODO 42wim Documentation would be helpful on when reconnects happen and what should be done in this function
 // Required implementation of the Bridger interface
-// https://github.com/42wim/matterbridge/blob/2cfd880cdb0df29771bf8f31df8d990ab897889d/bridge/bridge.go#L11-L16
+// https://github.com/SecurityInsanity/matterbridge/blob/2cfd880cdb0df29771bf8f31df8d990ab897889d/bridge/bridge.go#L11-L16
 func (b *Bwhatsapp) Disconnect() error {
 	// We could Logout, but that would close the session completely and would require a new QR code scan
 	// https://github.com/Rhymen/go-whatsapp/blob/c31092027237441cffba1b9cb148eadf7c83c3d2/session.go#L377-L381
@@ -189,7 +189,7 @@ func isGroupJid(identifier string) bool {
 
 // JoinChannel Join a WhatsApp group specified in gateway config as channel='number-id@g.us' or channel='Channel name'
 // Required implementation of the Bridger interface
-// https://github.com/42wim/matterbridge/blob/2cfd880cdb0df29771bf8f31df8d990ab897889d/bridge/bridge.go#L11-L16
+// https://github.com/SecurityInsanity/matterbridge/blob/2cfd880cdb0df29771bf8f31df8d990ab897889d/bridge/bridge.go#L11-L16
 func (b *Bwhatsapp) JoinChannel(channel config.ChannelInfo) error {
 	byJid := isGroupJid(channel.Name)
 
@@ -296,7 +296,7 @@ func (b *Bwhatsapp) PostImageMessage(msg config.Message, filetype string) (strin
 
 // Send a message from the bridge to WhatsApp
 // Required implementation of the Bridger interface
-// https://github.com/42wim/matterbridge/blob/2cfd880cdb0df29771bf8f31df8d990ab897889d/bridge/bridge.go#L11-L16
+// https://github.com/SecurityInsanity/matterbridge/blob/2cfd880cdb0df29771bf8f31df8d990ab897889d/bridge/bridge.go#L11-L16
 func (b *Bwhatsapp) Send(msg config.Message) (string, error) {
 	b.Log.Debugf("=> Receiving %#v", msg)
 

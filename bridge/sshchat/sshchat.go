@@ -5,9 +5,9 @@ import (
 	"io"
 	"strings"
 
-	"github.com/42wim/matterbridge/bridge"
-	"github.com/42wim/matterbridge/bridge/config"
-	"github.com/42wim/matterbridge/bridge/helper"
+	"github.com/SecurityInsanity/matterbridge/bridge"
+	"github.com/SecurityInsanity/matterbridge/bridge/config"
+	"github.com/SecurityInsanity/matterbridge/bridge/helper"
 	"github.com/shazow/ssh-chat/sshd"
 )
 

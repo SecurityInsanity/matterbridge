@@ -3,10 +3,10 @@ package bmattermost
 import (
 	"strings"
 
-	"github.com/42wim/matterbridge/bridge/config"
-	"github.com/42wim/matterbridge/bridge/helper"
-	"github.com/42wim/matterbridge/matterclient"
-	"github.com/42wim/matterbridge/matterhook"
+	"github.com/SecurityInsanity/matterbridge/bridge/config"
+	"github.com/SecurityInsanity/matterbridge/bridge/helper"
+	"github.com/SecurityInsanity/matterbridge/matterclient"
+	"github.com/SecurityInsanity/matterbridge/matterhook"
 	"github.com/mattermost/mattermost-server/model"
 )
 

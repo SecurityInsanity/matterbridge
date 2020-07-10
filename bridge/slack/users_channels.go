@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/42wim/matterbridge/bridge/config"
+	"github.com/SecurityInsanity/matterbridge/bridge/config"
 	"github.com/sirupsen/logrus"
 	"github.com/slack-go/slack"
 )

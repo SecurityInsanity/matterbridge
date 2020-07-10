@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/42wim/matterbridge/bridge"
-	"github.com/42wim/matterbridge/bridge/config"
+	"github.com/SecurityInsanity/matterbridge/bridge"
+	"github.com/SecurityInsanity/matterbridge/bridge/config"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	ring "github.com/zfjagann/golang-ring"

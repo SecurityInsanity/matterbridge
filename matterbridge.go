@@ -7,9 +7,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/42wim/matterbridge/bridge/config"
-	"github.com/42wim/matterbridge/gateway"
-	"github.com/42wim/matterbridge/gateway/bridgemap"
+	"github.com/SecurityInsanity/matterbridge/bridge/config"
+	"github.com/SecurityInsanity/matterbridge/gateway"
+	"github.com/SecurityInsanity/matterbridge/gateway/bridgemap"
 	"github.com/google/gops/agent"
 	prefixed "github.com/matterbridge/logrus-prefixed-formatter"
 	"github.com/sirupsen/logrus"

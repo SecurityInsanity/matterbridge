@@ -1,5 +1,5 @@
-// See https://github.com/42wim/matterbridge/issues/881
-// Generates a colored nick for each msgUsername, with example to filter specific codes 
+// See https://github.com/SecurityInsanity/matterbridge/issues/881
+// Generates a colored nick for each msgUsername, with example to filter specific codes
 
 text := import("text")
 fmt := import("fmt")
